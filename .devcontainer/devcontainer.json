@@ -1,0 +1,52 @@
+{
+  "name": "Hardhat (Web3)",
+  "dockerFile": "Dockerfile",
+
+  "forwardPorts": [8545, 3000],
+  "portsAttributes": {
+    "8545": {
+      "label": "Hardhat Node (JSON-RPC)",
+      "onAutoForward": "silent"
+    },
+    "3000": {
+      "label": "Frontend Dev Server",
+      "onAutoForward": "openBrowser"
+    }
+  },
+
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+  "workspaceFolder": "/workspace",
+
+  "mounts": [
+    "source=lab-hardhat-node_modules,target=/workspace/node_modules,type=volume"
+  ],
+
+  "remoteUser": "root",
+
+
+  "postStartCommand": "echo '👷 Hardhat ready. Run: npx hardhat --init'",
+
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "editor.formatOnSave": true,
+        "editor.tabSize": 2,
+        "[solidity]": {
+          "editor.defaultFormatter": "NomicFoundation.hardhat-solidity"
+        },
+        "eslint.validate": ["javascript", "typescript"],
+        "telemetry.telemetryLevel": "off"
+      },
+      "extensions": [
+        "NomicFoundation.hardhat-solidity",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "EditorConfig.EditorConfig",
+        "christian-kohler.path-intellisense"
+      ]
+    }
+  },
+
+  "shutdownAction": "stopContainer"
+}
