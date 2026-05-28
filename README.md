@@ -7,8 +7,8 @@ This project demonstrates advanced Solidity patterns and security concepts throu
 ## 🎯 Overview
 
 Hardhat Lab provides:
+
 - ✅ **Solution contracts** for Ethernaut challenges
-- ✅ **Comprehensive test coverage** (Foundry + Mocha/TypeScript)
 - ✅ **Deployment modules** using Hardhat Ignition
 - ✅ **Interaction scripts** to verify solutions on live networks
 - ✅ **Multi-network support** (local simulation, Sepolia testnet)
@@ -36,6 +36,7 @@ hardhat-lab/
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js 18+ with npm/yarn
 - Basic understanding of Solidity and Ethernaut
 
@@ -64,11 +65,13 @@ npx hardhat ignition deploy ignition/modules/Counter.ts
 ### Deploy to Sepolia Testnet
 
 First, set your private key:
+
 ```bash
 npx hardhat keystore set PRIVATE_KEY
 ```
 
 Then deploy:
+
 ```bash
 npx hardhat ignition deploy --network sepolia ignition/modules/Counter.ts
 ```
@@ -101,13 +104,14 @@ npx hardhat run scripts/vault.ts
 
 The project supports multiple networks:
 
-| Network | Type | Purpose |
-|---------|------|---------|
+| Network          | Type          | Purpose                           |
+| ---------------- | ------------- | --------------------------------- |
 | `hardhatMainnet` | EDR-simulated | Local Ethereum mainnet simulation |
-| `hardhatOp` | EDR-simulated | Local Optimism mainnet simulation |
-| `sepolia` | HTTP RPC | Ethereum Sepolia testnet |
+| `hardhatOp`      | EDR-simulated | Local Optimism mainnet simulation |
+| `sepolia`        | HTTP RPC      | Ethereum Sepolia testnet          |
 
 Configure in `hardhat.config.ts`:
+
 ```typescript
 networks: {
   sepolia: {
@@ -120,13 +124,17 @@ networks: {
 ## 🧪 Testing Architecture
 
 ### Foundry Tests (Solidity)
+
 Located in `contracts/*.t.sol`:
+
 - Unit tests written in Solidity
 - Fuzzing support (e.g., `testFuzz_Inc()`)
 - Revert expectations with `vm.expectRevert()`
 
 ### Integration Tests (TypeScript)
+
 Located in `test/*.ts`:
+
 - Deploy and test contracts dynamically
 - Use ethers.js v6 for interactions
 - Query events with `contract.queryFilter()`
@@ -135,6 +143,7 @@ Located in `test/*.ts`:
 ## 📝 Testing Architecture
 
 This project includes comprehensive tests at two levels:
+
 - **Unit tests** in Solidity for granular contract validation
 - **Integration tests** in TypeScript for end-to-end scenarios
 
