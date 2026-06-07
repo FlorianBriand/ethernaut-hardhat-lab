@@ -12,8 +12,15 @@ interface IReentrance {
 contract Reentrancy {
     IReentrance public reentrance;
     uint256 public storedAmount; // montant mémorisé entre les appels
+    address public owner;
+
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only owner");
+        _;
+    }
 
     constructor(address _reentranceAddress) {
+        owner = msg.sender;
         reentrance = IReentrance(_reentranceAddress);
     }
 
@@ -36,8 +43,8 @@ contract Reentrancy {
         }
     }
 
-    function collect() external {
-        (bool ok, ) = msg.sender.call{value: address(this).balance}("");
+    function collect() external onlyOwner {
+        (bool ok, ) = owner.call{value: address(this).balance}("");
         require(ok);
     }
 }

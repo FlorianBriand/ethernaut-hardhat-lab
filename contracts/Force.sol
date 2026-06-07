@@ -20,6 +20,11 @@ contract SendEtherToForce {
     /// @dev Tracks the original deployer/owner of this contract
     address private owner;
 
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only owner");
+        _;
+    }
+
     /// @dev Initialize the owner to the contract deployer
     constructor() {
         owner = msg.sender;
@@ -35,7 +40,7 @@ contract SendEtherToForce {
 
     /// @notice Allow the owner to withdraw any remaining Ether from this contract
     /// @dev Only the owner can call this. Uses a low-level call for transfer.
-    function withdraw() external {
+    function withdraw() external onlyOwner {
         (bool ok, ) = owner.call{value: address(this).balance}("");
         require(ok, "Transfer failed");
     }
@@ -53,7 +58,7 @@ contract SendEtherToForce {
     /// cannot receive it through normal means by triggering this attack.
     /// 
     /// @param _force The target address that will receive this contract's Ether
-    function attack(address payable _force) external payable {
+    function attack(address payable _force) external payable onlyOwner {
         selfdestruct(_force);
     }
 
