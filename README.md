@@ -17,6 +17,21 @@ Hardhat Lab provides:
 
 This project contains solutions for multiple Ethernaut challenges covering key Solidity patterns and security concepts. Solutions are provided as smart contracts, test suites, and deployment modules.
 
+## 🔐 Rappel sécurité — vulnérabilités vues dans ce projet
+
+Voici les principales vulnérabilités illustrées par les challenges implémentés :
+
+- **Réentrance (Re-entrancy)** : appels externes avant mise à jour d’état, permettant de retirer des fonds en boucle.
+- **Aléa prédictible on-chain (CoinFlip)** : utilisation de données de bloc (`blockhash`) comme source de hasard exploitable.
+- **Mauvaise authentification avec `tx.origin` (Telephone / GatekeeperOne)** : contournement via appel intermédiaire depuis un contrat.
+- **`delegatecall` dangereux en fallback (Delegation script)** : exécution de code externe dans le contexte de stockage du contrat appelant.
+- **Ether forcé via `selfdestruct` (Force)** : un contrat peut recevoir de l’ETH même sans `receive`/`fallback`.
+- **Données "privées" lisibles on-chain (Privacy)** : les variables de stockage restent extractibles malgré des noms/types trompeurs.
+- **Déni de service par refus de réception (King)** : blocage logique quand le remboursement du roi précédent échoue.
+- **Contrôle d’accès insuffisant (CallToken)** : fonction publique permettant des transferts de tokens sans restriction métier.
+
+Bonnes pratiques associées : modèle **checks-effects-interactions**, `ReentrancyGuard`, éviter `tx.origin` pour l’authentification, limiter/encadrer `delegatecall`, adopter le modèle **pull payments**, et appliquer un contrôle d’accès explicite sur chaque action sensible.
+
 ## 🏗️ Project Structure
 
 ```
